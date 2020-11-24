@@ -1,6 +1,7 @@
 import { populateChart, populateTable, populateTotal } from "./domMethods"
+import useIndexedDb from "./indexedDb";
 
-export function sendTransaction(isAdding) {
+export function sendTransaction(isAdding, transactions, myChart) {
     let nameEl = document.querySelector("#t-name");
     let amountEl = document.querySelector("#t-amount");
     let errorEl = document.querySelector(".form .error");
@@ -30,9 +31,9 @@ export function sendTransaction(isAdding) {
     transactions.unshift(transaction);
   
     // re-run logic to populate ui with new record
-    populateChart();
-    populateTable();
-    populateTotal();
+    populateChart(transactions, myChart);
+    populateTable(transactions);
+    populateTotal(transactions);
     
     // also send to server
     fetch("/api/transaction", {
@@ -58,7 +59,7 @@ export function sendTransaction(isAdding) {
     })
     .catch(err => {
       // fetch failed, so save in indexed db
-      saveRecord(transaction);
+      useIndexedDb("balance", "balanceStore", "put", transaction)
   
       // clear form
       nameEl.value = "";

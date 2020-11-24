@@ -1,4 +1,3 @@
-
 export function populateTotal(transactions) {
     // reduce transaction amounts to a single total value
     let total = transactions.reduce((total, t) => {

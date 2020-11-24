@@ -1,8 +1,13 @@
 // DEPENDENCIES
 import { populateTotal, populateTable, populateChart } from "./domMethods"
 import { sendTransaction } from"./API"
+import { useIndexedDb } from "./indexedDb"
 let transactions = [];
 let myChart;
+
+function renderTransactions() {
+  // TODO: define
+}
 
 fetch("/api/transaction")
   .then(response => {
@@ -15,12 +20,16 @@ fetch("/api/transaction")
     populateTotal(transactions);
     populateTable(transactions);
     populateChart(transactions, myChart);
+  })
+  .catch((err) => {
+    useIndexedDb("balance", "balanceStore", "get", transactions)
   });
 
+
 document.querySelector("#add-btn").onclick = function() {
-  sendTransaction(true);
+  sendTransaction(true, transactions, myChart);
 };
 
 document.querySelector("#sub-btn").onclick = function() {
-  sendTransaction(false);
+  sendTransaction(false, transactions, myChart);
 };
