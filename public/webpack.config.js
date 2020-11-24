@@ -8,11 +8,11 @@ const config = {
     // the app gets all of it code from index.js
     app: './assets/js/index.js',
     API: './assets/js/API.js',
-    domMethods: './assets/js/domMethods.js',
+    domMethods: './assets/js/domMethods.js'
   },
   output: {
     path: __dirname + '/dist',
-    filename: 'index.bundle.js',
+    filename: '[name].bundle.js',
   },
   mode: 'development',
   module: {

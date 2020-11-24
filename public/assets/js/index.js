@@ -1,6 +1,6 @@
 // DEPENDENCIES
 import { populateTotal, populateTable, populateChart } from "./domMethods"
-import { sendTransaction } from "./API"
+import { sendTransaction } from"./API"
 let transactions = [];
 let myChart;
 
@@ -12,9 +12,9 @@ fetch("/api/transaction")
     // save db data on global variable
     transactions = data;
 
-    populateTotal();
-    populateTable();
-    populateChart();
+    populateTotal(transactions);
+    populateTable(transactions);
+    populateChart(transactions, myChart);
   });
 
 document.querySelector("#add-btn").onclick = function() {
