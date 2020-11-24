@@ -6,7 +6,9 @@ const path = require('path');
 const config = {
   entry: {
     // the app gets all of it code from index.js
-    app: './assets/js/index.js'
+    app: './assets/js/index.js',
+    API: './assets/js/API.js',
+    domMethods: './assets/js/domMethods.js',
   },
   output: {
     path: __dirname + '/dist',
