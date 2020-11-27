@@ -1,5 +1,5 @@
 import { populateChart, populateTable, populateTotal } from "./domMethods"
-import useIndexedDb from "./indexedDb";
+import { useIndexedDb } from "./indexedDb";
 
 export function sendTransaction(isAdding, transactions, myChart) {
     let nameEl = document.querySelector("#t-name");
