@@ -14,7 +14,7 @@ const FILES_TO_CACHE = [
 const PRECACHE = 'precache-v1';
 const RUNTIME = 'runtime';
 
-// going to open a new cache
+// initial installation, caching all files
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
@@ -34,8 +34,8 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((cacheNames) => {
-        return cacheNames.filter((cacheName) => !currentCaches.includes(cacheName));
+      .then(cacheNames => {
+        return cacheNames.filter((cacheName) => !currentCaches.includes(cacheName)); // returns all cached information not in currentCaches 
       })
       .then((cachesToDelete) => {
         return Promise.all(
