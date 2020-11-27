@@ -1,3 +1,41 @@
+// DEPENDENCIES
+let db, transaction, store;
+
+// set up the database
+const request = window.indexedDB.open("balance", 1);
+
+request.onupgradeneeded = function(e) {
+    const db = request.result;
+    db.createObjectStore("pending", { autoIncrement: true });
+};
+
+request.onerror = function(e) {
+    console.log("There was an error");
+};
+
+request.onsuccess = function(e) {
+    db = request.result;
+    transaction = db.transaction("pending", "readwrite");
+    store = transaction.objectStore("pending");
+
+    db.onerror = function(e) {
+        console.log("error");
+    };
+    if (method === "put") {
+        store.put(object);
+    } else if (method === "get") {
+        const all = store.getAll();
+        all.onsuccess = function() {
+            resolve(all.result);
+        };
+    } else if (method === "delete") {
+        store.delete(object._id);
+    }
+    transaction.oncomplete = function() {
+        db.close();
+    };
+};
+
 // function checking if indexedDb is supported by the browser
 export function checkForIndexedDb() {
     window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -9,48 +47,6 @@ export function checkForIndexedDb() {
         return false;
     }
     return true;
-}
-
-// set up the database
-export function useIndexedDb(databaseName, method, object) {
-    return new Promise((resolve, reject) => {
-        const request = window.indexedDB.open(databaseName, 1);
-        let db,
-            transaction,
-            store;
-    
-        request.onupgradeneeded = function(e) {
-            const db = request.result;
-            db.createObjectStore(databaseName, { autoIncrement: true });
-        };
-    
-        request.onerror = function(e) {
-            console.log("There was an error");
-        };
-    
-        request.onsuccess = function(e) {
-            db = request.result;
-            transaction = db.transaction(databaseName, "readwrite");
-            store = transaction.objectStore(databaseName);
-    
-            db.onerror = function(e) {
-                console.log("error");
-            };
-            if (method === "put") {
-                store.put(object);
-            } else if (method === "get") {
-                const all = store.getAll();
-                all.onsuccess = function() {
-                    resolve(all.result);
-                };
-            } else if (method === "delete") {
-                store.delete(object._id);
-            }
-            transaction.oncomplete = function() {
-                db.close();
-            };
-        };
-    });
 }
 
 export function checkDatabase() {

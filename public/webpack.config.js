@@ -8,7 +8,8 @@ const config = {
     // the app gets all of it code from index.js
     app: './assets/js/index.js',
     API: './assets/js/API.js',
-    domMethods: './assets/js/domMethods.js'
+    domMethods: './assets/js/domMethods.js',
+    indexedDb: './assets/js/indexedDb.js'
   },
   output: {
     path: __dirname + '/dist',

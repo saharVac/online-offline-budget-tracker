@@ -1,7 +1,7 @@
 // DEPENDENCIES
 import { populateTotal, populateTable, populateChart } from "./domMethods"
 import { sendTransaction } from"./API"
-import { useIndexedDb, checkForIndexedDb, checkDatabase } from "./indexedDb"
+import { checkDatabase } from "./indexedDb"
 let transactions = [];
 let myChart;
 
