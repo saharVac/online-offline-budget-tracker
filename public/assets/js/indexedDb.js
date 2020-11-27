@@ -21,7 +21,7 @@ export function useIndexedDb(databaseName, method, object) {
     
         request.onupgradeneeded = function(e) {
             const db = request.result;
-            db.createObjectStore(storeName, { autoIncrement: true });
+            db.createObjectStore(databaseName, { autoIncrement: true });
         };
     
         request.onerror = function(e) {
@@ -53,7 +53,7 @@ export function useIndexedDb(databaseName, method, object) {
     });
 }
 
-function checkDatabase() {
+export function checkDatabase() {
     // open a transaction on your pending db
     const transaction = db.transaction(["balanceStore"], "readwrite");
     // access your pending object store

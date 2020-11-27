@@ -23,11 +23,7 @@ fetch("/api/transaction")
   })
 
 // check for indexedDb objects to render onto page
-if (checkForIndexedDb()) {
-  useIndexedDb("balance", "balanceStore", "get", transactions).then(response => {
-    // renderTransactions(response, myChart);
-  });
-}
+window.addEventListener("online", checkDatabase);
 
 document.querySelector("#add-btn").onclick = function() {
   sendTransaction(true, transactions, myChart);
@@ -37,5 +33,3 @@ document.querySelector("#sub-btn").onclick = function() {
   sendTransaction(false, transactions, myChart);
 };
 
-// listen for app coming back online
-window.addEventListener("online", checkDatabase);

@@ -7,6 +7,7 @@ const FILES_TO_CACHE = [
   '/dist/app.bundle.js',
   '/dist/API.bundle.js',
   '/dist/domMethods.bundle.js',
+  'manifest.webmanifest',
   'https://fonts.googleapis.com/css?family=Istok+Web|Montserrat:800&display=swap',
   'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css',
 ];
@@ -61,10 +62,13 @@ self.addEventListener('fetch', (event) => {
           return fetch(event.request).then((response) => {
             return cache.put(event.request, response.clone()).then(() => {
               return response;
+            }).catch(err => {
+              return cache.match(event.request)
             });
           });
         });
       })
     );
+    return
   }
 });
