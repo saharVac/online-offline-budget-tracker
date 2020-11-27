@@ -84,4 +84,12 @@ export function checkDatabase() {
         });
       }
     };
-  }
+}
+
+export function saveRecord(record) {
+    const transaction = db.transaction(["pending"], "readwrite");
+    // access your pending object store
+    const store = transaction.objectStore("pending");
+    // add record to store
+    store.add(record)
+}

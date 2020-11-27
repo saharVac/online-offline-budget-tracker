@@ -12,14 +12,14 @@ const FILES_TO_CACHE = [
   'https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css',
 ];
 
-const PRECACHE = 'precache-v1';
-const RUNTIME = 'runtime';
+const CACHE_NAME = 'static-cache-v1';
+const DATA_CACHE_NAME = 'data-cache-v1';
 
 // initial installation, caching all files
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
-      .open(PRECACHE)
+      .open(CACHE_NAME)
       // go through all files to cache
       .then((cache) => cache.addAll(FILES_TO_CACHE))
       // allows us to move to the next step
@@ -30,7 +30,7 @@ self.addEventListener('install', (event) => {
 // The activate handler takes care of cleaning up old caches.
 self.addEventListener('activate', (event) => {
   // grabs our caches in an array
-  const currentCaches = [PRECACHE, RUNTIME];
+  const currentCaches = [CACHE_NAME, DATA_CACHE_NAME];
   // checks if they've been changed
   event.waitUntil(
     caches
@@ -58,7 +58,7 @@ self.addEventListener('fetch', (event) => {
           return cachedResponse;
         }
 
-        return caches.open(RUNTIME).then((cache) => {
+        return caches.open(DATA_CACHE_NAME).then((cache) => {
           return fetch(event.request).then((response) => {
             return cache.put(event.request, response.clone()).then(() => {
               return response;

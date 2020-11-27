@@ -1,5 +1,5 @@
 import { populateChart, populateTable, populateTotal } from "./domMethods"
-import { useIndexedDb } from "./indexedDb";
+import { saveRecord } from "./indexedDb";
 
 export function sendTransaction(isAdding, transactions, myChart) {
     let nameEl = document.querySelector("#t-name");
@@ -59,8 +59,8 @@ export function sendTransaction(isAdding, transactions, myChart) {
     })
     .catch(err => {
       // fetch failed, so save in indexed db
-      useIndexedDb("balance", "balanceStore", "put", transaction)
-  
+      saveRecord(transaction)
+
       // clear form
       nameEl.value = "";
       amountEl.value = "";
