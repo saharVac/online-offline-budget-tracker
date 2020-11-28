@@ -15,25 +15,16 @@ request.onerror = function(e) {
 
 request.onsuccess = function(e) {
     db = request.result;
-    transaction = db.transaction("pending", "readwrite");
-    store = transaction.objectStore("pending");
 
-    db.onerror = function(e) {
-        console.log("error");
-    };
-    if (method === "put") {
-        store.put(object);
-    } else if (method === "get") {
-        const all = store.getAll();
-        all.onsuccess = function() {
-            resolve(all.result);
-        };
-    } else if (method === "delete") {
-        store.delete(object._id);
-    }
-    transaction.oncomplete = function() {
-        db.close();
-    };
+    // check database if online
+   if (navigator.onLine) {
+       checkDatabase();
+   }
+    
+};
+
+request.onerror = function(err) {
+    console.log("error:", err);
 };
 
 // function checking if indexedDb is supported by the browser
@@ -51,9 +42,9 @@ export function checkForIndexedDb() {
 
 export function checkDatabase() {
     // open a transaction on your pending db
-    const transaction = db.transaction(["balanceStore"], "readwrite");
+    const transaction = db.transaction(["pending"], "readwrite");
     // access your pending object store
-    const balanceStore = transaction.objectStore("pending");
+    const store = transaction.objectStore("pending");
     // get all records from store and set to a variable
     const getAll = store.getAll();
   
